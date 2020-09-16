@@ -1,0 +1,44 @@
+* Dev instructions
+Development environment based on the excellent [[https://cjolowicz.github.io/posts/hypermodern-python-01-setup/][Hypermodern Python]] series of
+blog posts, that includes unit testing and static typing, but modified to use
+conda instead of Poetry. Here, I describe some quick notes on how to start
+developing using this approach.
+
+(I've made some more opinionated changes too. For example, I've opted not to
+use git precommit stuff because I find it makes me want to commit less often,
+which is not good when developing outside of the master branch.)
+
+First, make sure conda is installed. Packages required to *run* the code are
+setup in environment.yml. These are installed using
+#+BEGIN_SRC shell
+  conda env create -f environment.yml
+#+END_SRC
+To update dependencies (if a new version of the code requires new packages,
+for example), you can do
+#+BEGIN_SRC shell
+  conda env update -f environment.yml
+#+END_SRC
+Then we have the development packages (such as linters) that we install with
+pip.
+#+BEGIN_SRC shell
+  conda activate hello_world
+  pip install -r requirements-dev.txt
+#+END_SRC
+Frustratingly, we have to copy-paste the packages in ~environmment.yml~ to
+~requirements.txt~... otherwise nox doesn't work. So keep that in mind, as you
+add packages. Maybe it's fixable?
+
+** Running nox
+To run the full set of unit tests, linters and typecheckers, use ~nox -rs~. To
+run just the tests, do ~nox -rs tests~. To format the code, run ~nox -rs black~.
+
+** Creating a new project
+To start a new project using this template,
+- [ ] Verify everything works by running ~nox -rs~ in the root directory.
+- [ ] ~rm -rfd .git~ to make a new repo.
+- [ ] Choose your favorite python versions and update ~noxfile.py~
+- [ ] Put the required libraries in ~environment.yml~ and ~requirements.txt~
+- [ ] Put the required info in ~setup.py~
+- [ ] Change all instances of "hello_world" to the project name throughout.
+- Start writing code! (and lots of tests!)
+
