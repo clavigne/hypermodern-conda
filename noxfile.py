@@ -4,7 +4,7 @@ import nox
 from nox.sessions import Session
 
 package = "hello_world"
-nox.options.sessions = "lint", "tests", "pytype", "typeguard", "mypy"  # default session
+nox.options.sessions = "lint", "tests", "typeguard", "mypy"  # default session
 locations = "src", "tests", "noxfile.py"  # Linting locations
 pyversions = ["3.8"]
 
@@ -44,15 +44,6 @@ def black(session: Session) -> None:
     args = session.posargs or locations
     session.install("black")
     session.run("black", *args)
-
-
-# Static typing analysis
-@nox.session(python="3.8")
-def pytype(session: Session) -> None:
-    """Run the static type checker."""
-    args = session.posargs or ["--disable=import-error", *locations]
-    session.install("pytype")
-    session.run("pytype", *args)
 
 
 # Static typing
