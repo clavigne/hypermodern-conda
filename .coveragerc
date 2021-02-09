@@ -22,3 +22,4 @@ exclude_lines =
 
 ignore_errors = True
 fail_under = 80
+show_missing = True
